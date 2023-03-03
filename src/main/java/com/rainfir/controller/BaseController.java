@@ -3,6 +3,7 @@ package com.rainfir.controller;
 import com.rainfir.error.BusinessException;
 import com.rainfir.error.EmBusinessError;
 import com.rainfir.response.CommonReturnType;
+import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -13,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class BaseController {
+    public static final String CONTENT_TYPE_FORMED="application/x-www-form-urlencoded";
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

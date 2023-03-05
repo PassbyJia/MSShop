@@ -1,6 +1,7 @@
 package com.rainfir.dao;
 
 import com.rainfir.dataobject.ItemStockDO;
+import org.apache.ibatis.annotations.Param;
 
 public interface ItemStockDOMapper {
     /**
@@ -51,4 +52,6 @@ public interface ItemStockDOMapper {
      * @mbg.generated Sat Mar 04 15:21:05 CST 2023
      */
     int updateByPrimaryKey(ItemStockDO record);
+
+    int decreaseStock(@Param("itemId")Integer itemId,@Param("amount")Integer amount);
 }

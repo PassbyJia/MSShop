@@ -12,4 +12,8 @@ public interface ItemService {
     ItemModel getItemById(Integer id);
     //生成商品列表
     List<ItemModel> getAllItems();
+    //库存扣减
+    boolean decreaseStock(Integer itemId,Integer amount);
+    //销量增加
+    void increaseSales(Integer itemId,Integer amount);
 }

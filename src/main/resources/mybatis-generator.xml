@@ -45,21 +45,13 @@
                <!--enableSelectByExample="false"-->
                <!--selectByExampleQueryId="false">-->
         <!--</table>-->
-        <table tableName="item_info"
-            domainObjectName="ItemDO"
+        <table tableName="sequence_info"
+            domainObjectName="SequenceDO"
             enableCountByExample="false"
             enableUpdateByExample="false"
             enableDeleteByExample="false"
             enableSelectByExample="false"
             selectByExampleQueryId="false">
-        </table>
-        <table tableName="item_stock"
-               domainObjectName="ItemStockDO"
-               enableCountByExample="false"
-               enableUpdateByExample="false"
-               enableDeleteByExample="false"
-               enableSelectByExample="false"
-               selectByExampleQueryId="false">
         </table>
 
     </context>

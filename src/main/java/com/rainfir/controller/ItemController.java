@@ -6,6 +6,7 @@ import com.rainfir.error.BusinessException;
 import com.rainfir.model.ItemModel;
 import com.rainfir.response.CommonReturnType;
 import com.rainfir.service.ItemService;
+import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,8 +31,7 @@ public class ItemController extends BaseController {
         List<ItemModel> allItems = itemService.getAllItems();
         //model-->vo返回前端
         List<ItemVO> itemVOList = allItems.stream().map(itemModel -> {
-            ItemVO itemVO = new ItemVO();
-            BeanUtils.copyProperties(itemModel, itemVO);
+            ItemVO itemVO = convertFromItemModel(itemModel);
             return itemVO;
         }).collect(Collectors.toList());
         return CommonReturnType.create(itemVOList);
@@ -59,7 +59,23 @@ public class ItemController extends BaseController {
     @ResponseBody
     public CommonReturnType getItem(@RequestParam("id")Integer id){
         ItemModel itemModel = itemService.getItemById(id);
+        ItemVO itemVO = convertFromItemModel(itemModel);
+        return CommonReturnType.create(itemVO);
+    }
 
-        return CommonReturnType.create(itemModel);
+    private ItemVO convertFromItemModel(ItemModel itemModel){
+        if(itemModel==null) return null;
+        ItemVO itemVO = new ItemVO();
+        BeanUtils.copyProperties(itemModel,itemVO);
+        if(itemModel.getPromoModel()!=null){
+            itemVO.setPromoId(itemModel.getPromoModel().getId());
+            itemVO.setPromoPrice(itemModel.getPromoModel().getPromoPrice());
+            itemVO.setPromoStartDate(itemModel.getPromoModel().getStartDate().toString(DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:SS")));
+            itemVO.setPromoStatus(itemModel.getPromoModel().getPromoStatus());
+        }else{
+            itemVO.setPromoStatus(0);
+        }
+
+        return itemVO;
     }
 }

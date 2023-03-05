@@ -7,7 +7,9 @@ import com.rainfir.dataobject.ItemStockDO;
 import com.rainfir.error.BusinessException;
 import com.rainfir.error.EmBusinessError;
 import com.rainfir.model.ItemModel;
+import com.rainfir.model.PromoModel;
 import com.rainfir.service.ItemService;
+import com.rainfir.service.PromoService;
 import com.rainfir.validator.ValidationResult;
 import com.rainfir.validator.ValidatorImpl;
 import org.springframework.beans.BeanUtils;
@@ -28,12 +30,16 @@ public class ItemServiceImpl implements ItemService {
     private ItemDOMapper itemDOMapper;
     @Autowired
     private ItemStockDOMapper itemStockDOMapper;
+    @Autowired
+    private PromoService promoService;
 
     @Override
     public List<ItemModel> getAllItems() {
         List<ItemDO> itemDOs = itemDOMapper.selectAll();
         List<ItemModel> itemModelList = itemDOs.stream().map(itemDO -> {
             ItemModel itemModel = this.convertFromDataObject(itemDO, itemStockDOMapper.selectByItemId(itemDO.getId()));
+            //获取该商品的活动信息
+            itemModel.setPromoModel(promoService.getPromoByItemId(itemModel.getId()));
             return itemModel;
         }).collect(Collectors.toList());
         return itemModelList;
@@ -114,6 +120,14 @@ public class ItemServiceImpl implements ItemService {
         if(itemDO==null) return null;
         ItemStockDO itemStockDO = itemStockDOMapper.selectByItemId(itemDO.getId());
         if(itemStockDO==null) return null;
-        return convertFromDataObject(itemDO,itemStockDO);
+        ItemModel itemModel = convertFromDataObject(itemDO, itemStockDO);
+        //获取活动信息
+        PromoModel promoModel = promoService.getPromoByItemId(itemModel.getId());
+        if(promoModel==null||promoModel.getPromoStatus()==3){
+            itemModel.setPromoModel(null);
+        }else{
+            itemModel.setPromoModel(promoModel);
+        }
+        return itemModel;
     }
 }

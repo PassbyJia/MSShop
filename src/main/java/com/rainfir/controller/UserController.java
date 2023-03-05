@@ -86,7 +86,12 @@ public class UserController extends BaseController {
     //用户获取opt短信接口
     @RequestMapping(value = "/getotp",method = {RequestMethod.POST},consumes = {CONTENT_TYPE_FORMED})
     @ResponseBody
-    public CommonReturnType getOtp(@RequestParam(name = "telphone")String telphone){
+    public CommonReturnType getOtp(@RequestParam(name = "telphone")String telphone) throws BusinessException {
+        //判断手机号是否已经注册
+        UserModel userModel = userService.getUserByTelphone(telphone);
+        if (userModel!=null){
+            throw new BusinessException(EmBusinessError.USER_HAD_EXIST);
+        }
         //按照一定的规则生成OTP验证码
         Random random = new Random();
         int randomInt = random.nextInt(99999);

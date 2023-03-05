@@ -81,6 +81,15 @@ public class UserServiceImpl implements UserService {
         return userModel;
     }
 
+    @Override
+    public UserModel getUserByTelphone(String telphone) {
+        UserDO userDO = userDOMapper.selectByTelphone(telphone);
+        if (userDO==null) return null;
+        UserPwdDO userPwdDO = userPwdDOMapper.selectByUserId(userDO.getId());
+        UserModel userModel = convertFromDataObject(userDO, userPwdDO);
+        return userModel;
+    }
+
     //实现model->do的转变
     private UserDO convertFromUserModel(UserModel userModel){
         if (userModel==null) return null;

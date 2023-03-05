@@ -60,6 +60,7 @@
 			</div>
 			<div class="form-actions">
 				<button class="btn blue" id="order" type="submit">下单</button>
+				<button class="btn green" id="goBack" type="submit">返回</button>
 			</div>
 		</div>
 		
@@ -164,7 +165,9 @@
 			}
 			
 		}
-		
+		$("#goBack").on("click",function () {
+			window.location.href="list.html";
+        });
 	</script>
 	
 </html>

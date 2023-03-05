@@ -17,6 +17,7 @@
 				</div><br />
 				<div class="form-actions">
 					<button class="btn blue" id="getotp" type="submit">获取otp短信</button>
+					<button class="btn green" id="login" type="submit">登录</button>
 				</div>
 			
 			</div>
@@ -51,7 +52,7 @@
 							alert("otp已经发送到了您的手机上，请注意查收");
 							window.location.href="register.html"
 						}else{
-							alert("otp发送失败，原因是"+data.data.errMsg);
+                            alert("otp发送失败，原因是"+data.data.errMsg);
 						}
 					},
 					error:function(data){
@@ -61,7 +62,10 @@
 				return false;
 			});
 		});
-		
+
+		$("#login").on("click",function () {
+			window.location.href="login.html";
+        });
 	</script>
 	
 </html>

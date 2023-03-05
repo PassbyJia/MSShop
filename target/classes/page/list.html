@@ -59,8 +59,17 @@
 		function reloadDom(){
 			for(var i = 0;i < g_itemList.length;i++){
 				var itemVO = g_itemList[i];
-				var dom="<tr data-id='"+itemVO.id+"' id='itemDetail"+itemVO.id+"'><td>"+itemVO.name+"</td><td><img style='width:100px;height:auto;' src='"+itemVO.imgUrl+"'/></td><td>"+itemVO.description+
-				"</td><td>"+itemVO.price+"</td><td>"+itemVO.stock+"</td><td>"+itemVO.sales+"</td></tr>";
+				if(itemVO.promoStatus==2){
+                    var dom="<tr data-id='"+itemVO.id+"' id='itemDetail"+itemVO.id+"'><td style='color: red'>"+itemVO.name+"(秒杀中！！！)</td><td><img style='width:100px;height:auto;' src='"+itemVO.imgUrl+"'/></td><td>"+itemVO.description+
+                        "</td><td style='color: red'>"+itemVO.promoPrice+"</td><td>"+itemVO.stock+"</td><td>"+itemVO.sales+"</td></tr>";
+				}else if(itemVO.promoStatus==1){
+                    var dom="<tr data-id='"+itemVO.id+"' id='itemDetail"+itemVO.id+"'><td style='color: #ed508d'>"+itemVO.name+"(秒杀开启时间:"+itemVO.promoStartDate+")</td><td><img style='width:100px;height:auto;' src='"+itemVO.imgUrl+"'/></td><td>"+itemVO.description+
+                        "</td><td>"+itemVO.price+"</td><td>"+itemVO.stock+"</td><td>"+itemVO.sales+"</td></tr>";
+				}else{
+                    var dom="<tr data-id='"+itemVO.id+"' id='itemDetail"+itemVO.id+"'><td>"+itemVO.name+"</td><td><img style='width:100px;height:auto;' src='"+itemVO.imgUrl+"'/></td><td>"+itemVO.description+
+                        "</td><td>"+itemVO.price+"</td><td>"+itemVO.stock+"</td><td>"+itemVO.sales+"</td></tr>";
+                }
+
 				$("#container").append($(dom));
 				$("#itemDetail"+itemVO.id).on("click",function(e){
 					window.location.href="getItem.html?id="+$(this).data("id");
